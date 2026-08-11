@@ -6,4 +6,4 @@ public sealed record SearchAvailabilityRequest(
     DateOnly CheckOut,
     int Rooms,
     int Adults,
-    IReadOnlyList<int>? ChildrenAges); // null/empty = no children
+    IReadOnlyList<int>? ChildrenAges = null); // null/empty = no children

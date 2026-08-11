@@ -4,4 +4,4 @@ public sealed record GuestInfo(
     string FirstName,
     string LastName,
     string Email,
-    string? Phone);
+    string? Phone = null);

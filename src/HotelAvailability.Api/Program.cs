@@ -9,7 +9,16 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureHttpJsonOptions(options =>
-    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)));
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+    // Record constructor parameters without a C# default (e.g. CreateBookingRequest.Guest)
+    // must be present in the JSON body, and non-nullable reference-type members reject an
+    // explicit null — so binding alone yields 400 for missing required fields without a
+    // hand-written validator for the booking stub. Fields meant to be optional (ChildrenAges,
+    // Phone) get an explicit `= null` default in their record declaration to opt out.
+    options.SerializerOptions.RespectRequiredConstructorParameters = true;
+    options.SerializerOptions.RespectNullableAnnotations = true;
+});
 
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddSingleton<IHotelCatalog, InMemoryHotelCatalog>();

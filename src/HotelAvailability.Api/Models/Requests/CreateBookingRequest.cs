@@ -8,5 +8,5 @@ public sealed record CreateBookingRequest(
     DateOnly CheckOut,
     int Rooms,
     int Adults,
-    IReadOnlyList<int>? ChildrenAges,
-    GuestInfo Guest);
+    GuestInfo Guest,
+    IReadOnlyList<int>? ChildrenAges = null); // null/empty = no children
